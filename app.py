@@ -2,6 +2,7 @@ from flask import Flask, render_template
 from config import Config
 from extensions import db, login_manager, bcrypt
 from models import User
+from views.auth import auth_bp
 
 import os
 
@@ -18,10 +19,11 @@ def create_app():
     login_manager.login_view = 'auth.login'
     login_manager.login_message_category = 'info'
 
+    app.register_blueprint(auth_bp)
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(int(user_id))
-
+    
     @app.route('/')
     def index():
         return render_template('index.html')
@@ -33,7 +35,7 @@ def create_app():
             admin = User(username='admin', password_hash=hashed_pwd, role='admin')
             db.session.add(admin)
             db.session.commit()
-            print("Admin created: admin / admin123")
+            print("Admin created: admin / admin123456")
 
     return app
 
