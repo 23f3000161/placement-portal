@@ -40,7 +40,7 @@ class PlacementDrive(db.Model):
     jd = db.Column(db.Text, nullable=False)
     eligibility_criteria = db.Column(db.Text, nullable=False)
     deadline = db.Column(db.Date, nullable=False)
-    job_status = db.Column(db.String(20), default='NA') 
+    status = db.Column(db.String(20), default='pending') # pending, approved, rejected, closed
     applications = db.relationship('Application', backref='drive', cascade='all, delete-orphan')
 #connects students with jobs to see their status in the application process
 class Application(db.Model):

@@ -1,0 +1,162 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h2>Manage Users</h2>
+
+<form method="GET" action="{{ url_for('admin.manage_users') }}" class="mb-3">
+<input type="text" name="search" placeholder="Search by name..." value="{{ search_query }}"> <button type="submit" class="btn btn-primary btn-sm">Search</button>
+</form>
+
+<h4>Students</h4>
+
+<div class="table-responsive mb-4">
+<table class="table table-bordered">
+<thead>
+    <tr>
+    <th>ID</th>
+     <th>Name</th>
+     <th>Username</th>
+     <th>Contact</th>
+     <th>Status</th>
+     <th>Actions</th>
+     </tr>
+</thead>
+<tbody>
+{% for student in students %}
+ <tr>
+  <td>{{ student.id }}</td>
+    <td>{{ student.name }}</td>
+     <td>{{ student.user.username }}</td>
+     <td>{{ student.contact }}</td>
+
+        <td>
+        {% if student.user.is_active %}
+        Active
+        {% else %}
+        Blacklisted
+        {% endif %}
+        </td>
+
+        <td>
+        <form method="POST"
+        action="{{ url_for('admin.toggle_status', user_id=student.user.id) }}"
+        style="display:inline;">
+
+    {% if student.user.is_active %}
+        <button type="submit" class="btn btn-warning btn-sm">Blacklist</button>
+         {% else %}
+        <button type="submit" class="btn btn-success btn-sm">Activate</button>
+        {% endif %}
+
+</form>
+
+ <form method="POST"
+    action="{{ url_for('admin.delete_user', user_id=student.user.id) }}"
+    style="display:inline;"
+    onsubmit="return confirm('Delete this user?');">
+
+      <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+
+</form>
+</td>
+ </tr>
+{% endfor %}
+
+{% if not students %}
+<tr>
+<td colspan="6">No students found.</td>
+ </tr>
+        {% endif %}
+    </tbody>
+</table>
+</div>
+
+
+
+<h4>Companies</h4>
+
+<div class="table-responsive">
+<table class="table table-bordered">
+
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Username</th>
+            <th>HR Contact</th>
+            <th>Website</th>
+            <th>Approval</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {% for company in companies %}
+        <tr>
+
+            <td>{{ company.company_name }}</td>
+            <td>{{ company.user.username }}</td>
+            <td>{{ company.hr_contact }}</td>
+
+            <td>
+                <a href="{{ company.website }}" target="_blank">Link</a>
+            </td>
+
+            <td>
+                {% if company.is_approved %}
+                Approved
+                {% else %}
+                Pending
+                {% endif %}
+            </td>
+
+            <td>
+                {% if company.user.is_active %}
+                Active
+                {% else %}
+                Blacklisted
+                {% endif %}
+            </td>
+
+            <td>
+
+                <form method="POST"
+                      action="{{ url_for('admin.toggle_status', user_id=company.user.id) }}"
+                      style="display:inline;">
+
+                    {% if company.user.is_active %}
+                    <button type="submit" class="btn btn-warning btn-sm">Blacklist</button>
+                    {% else %}
+                    <button type="submit" class="btn btn-success btn-sm">Activate</button>
+                    {% endif %}
+
+                </form>
+
+                <form method="POST"
+                      action="{{ url_for('admin.delete_user', user_id=company.user.id) }}"
+                      style="display:inline;"
+                      onsubmit="return confirm('Delete this company?');">
+
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+
+                </form>
+
+            </td>
+
+        </tr>
+        {% endfor %}
+
+        {% if not companies %}
+        <tr>
+            <td colspan="7">No companies found.</td>
+        </tr>
+        {% endif %}
+
+    </tbody>
+
+</table>
+</div>
+
+{% endblock %}

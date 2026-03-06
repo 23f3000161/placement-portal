@@ -3,6 +3,7 @@ from config import Config
 from extensions import db, login_manager, bcrypt
 from models import User
 from views.auth import auth_bp
+from views.admin import admin_bp
 
 import os
 
@@ -18,6 +19,7 @@ def create_app():
 
     login_manager.login_view = 'auth.login'
     login_manager.login_message_category = 'info'
+    app.register_blueprint(admin_bp, url_prefix='/admin')
 
     app.register_blueprint(auth_bp)
     @login_manager.user_loader
