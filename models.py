@@ -3,6 +3,7 @@ from flask_login import UserMixin
 from datetime import datetime
 #user profile = either company or student
 class User(db.Model, UserMixin):
+    __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
@@ -13,6 +14,7 @@ class User(db.Model, UserMixin):
     company_profile = db.relationship('CompanyProfile', backref='user', uselist=False, cascade='all, delete-orphan')
 #table for student profiles
 class StudentProfile(db.Model):
+    __tablename__ = 'student_profiles'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     name = db.Column(db.String(100), nullable=False)
@@ -21,6 +23,7 @@ class StudentProfile(db.Model):
     applications = db.relationship('Application', backref='student', cascade='all, delete-orphan')
 #table for companies
 class CompanyProfile(db.Model):
+    __tablename__ = 'company_profiles'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     company_name = db.Column(db.String(100), nullable=False)
@@ -30,6 +33,7 @@ class CompanyProfile(db.Model):
     drives = db.relationship('PlacementDrive', backref='company', cascade='all, delete-orphan')
 #job postings created by companies
 class PlacementDrive(db.Model):
+    __tablename__ = 'placement_drives'
     id = db.Column(db.Integer, primary_key=True)
     company_id = db.Column(db.Integer, db.ForeignKey('company_profiles.id'), nullable=False)
     position_title = db.Column(db.String(150), nullable=False)
@@ -40,6 +44,7 @@ class PlacementDrive(db.Model):
     applications = db.relationship('Application', backref='drive', cascade='all, delete-orphan')
 #connects students with jobs to see their status in the application process
 class Application(db.Model):
+    __tablename__ = 'applications'
     id = db.Column(db.Integer, primary_key=True)
     student_id = db.Column(db.Integer, db.ForeignKey('student_profiles.id'), nullable=False)
     drive_id = db.Column(db.Integer, db.ForeignKey('placement_drives.id'), nullable=False)
