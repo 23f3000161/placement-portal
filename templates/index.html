@@ -1,12 +1,71 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="p-5 mb-4 bg-light rounded-3">
-        <h1 class="display-5 fw-bold">Campus Placement Portal</h1>
-        <p class="col-md-8 fs-4">Connect students with top companies smoothly</p>
-        <a href="{{ url_for('auth.register_student') }}" class="btn btn-primary btn-lg me-2">Student</a>
-        <a href="{{ url_for('auth.register_company') }}" class="btn btn-outline-secondary btn-lg">Company</a>
+
+<div class="container vh-90 d-flex align-items-center justify-content-center">
+
+    <div class="text-center w-100">
+
+        <h1 class="fw-bold mb-3" style="color:#7A003C;">
+            Campus Placement Portal
+        </h1>
+
+        <p class="lead text-secondary mb-5">
+            Connecting students with top companies seamlessly
+        </p>
+
+        <div class="row justify-content-center g-4">
+
+            <!-- Student Card -->
+            <div class="col-md-4">
+                <div class="card shadow-sm border-0 text-center p-4 h-100">
+
+                    <div class="mb-3">
+                        <i class="fas fa-user-graduate fa-3x" style="color:#7A003C;"></i>
+                    </div>
+
+                    <h4 class="fw-bold">Student</h4>
+
+                    <p class="text-muted">
+                        Create your profile, explore placement drives and apply to companies.
+                    </p>
+
+                    <a href="{{ url_for('auth.register_student') }}"
+                       class="btn fw-semibold mt-2"
+                       style="background-color:#7A003C;color:white;">
+                        Register
+                    </a>
+
+                </div>
+            </div>
+
+            <!-- Company Card -->
+            <div class="col-md-4">
+                <div class="card shadow-sm border-0 text-center p-4 h-100">
+
+                    <div class="mb-3">
+                        <i class="fas fa-building fa-3x" style="color:#7A003C;"></i>
+                    </div>
+
+                    <h4 class="fw-bold">Company</h4>
+
+                    <p class="text-muted">
+                        Post placement drives and recruit talented students easily.
+                    </p>
+
+                    <a href="{{ url_for('auth.register_company') }}"
+                       class="btn fw-semibold mt-2"
+                       style="background-color:#7A003C;color:white;">
+                        Register
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+
     </div>
+
 </div>
+
 {% endblock %}
