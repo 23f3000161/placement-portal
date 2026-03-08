@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h2 class="mb-3">Applications for {{ drive.job_title }}</h2>
+<h5 class="text-muted mb-4">{{ drive.company.company_name }}</h5>
+
+<table class="table table-bordered table-striped">
+
+    <thead class="table-light">
+        <tr>
+            <th>Student ID</th>
+            <th>Name</th>
+            <th>Contact</th>
+            <th>Date of Application/th>
+            <th>Resume</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for app in applications %}
+        <tr>
+
+            <td>#{{ app.student.id }}</td>
+
+            <td class="fw-bold">{{ app.student.name }}</td>
+
+            <td>{{ app.student.contact }}</td>
+
+            <td>{{ app.application_date.strftime('%Y-%m-%d') }}</td>
+
+            <td>
+                {% if app.student.resume_filename %}
+                <a href="{{ url_for('static', filename='uploads/' + app.student.resume_filename) }}"
+                   class="btn btn-sm btn-primary"
+                   target="_blank">
+                   Resume
+                </a>
+                {% else %}
+                <span class="text-muted">Not uploaded</span>
+                {% endif %}
+            </td>
+
+            <td>
+                <span class="badge bg-secondary">{{ app.status }}</span>
+            </td>
+
+        </tr>
+        {% endfor %}
+
+        {% if not applications %}
+        <tr>
+            <td colspan="6" class="text-center text-muted">
+                No applications for this drive.
+            </td>
+        </tr>
+        {% endif %}
+
+    </tbody>
+
+</table>
+
+{% endblock %}
