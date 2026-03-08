@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h2>All Placement Drives</h2>
+
+<table class="table table-bordered">
+
+    <thead>
+        <tr>
+            <th>Job Title</th>
+            <th>Company</th>
+            <th>Deadline</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for drive in drives %}
+        <tr>
+
+            <td>{{ drive.job_title }}</td>
+
+            <td>{{ drive.company.company_name }}</td>
+
+            <td>{{ drive.deadline.strftime('%Y-%m-%d') }}</td>
+
+            <td>{{ drive.status }}</td>
+
+            <td>
+                <a href="{{ url_for('admin.drive_applications', drive_id=drive.id) }}" class="btn btn-primary btn-sm">
+                    Applications ({{ drive.applications|length }})
+                </a>
+            </td>
+
+        </tr>
+        {% endfor %}
+
+        {% if not drives %}
+        <tr>
+            <td colspan="5">No placement drives found.</td>
+        </tr>
+        {% endif %}
+
+    </tbody>
+
+</table>
+
+{% endblock %}

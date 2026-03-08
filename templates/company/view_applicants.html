@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between mb-3">
+    <div>
+        <h2>Applicants</h2>
+        <h5>{{ drive.job_title }}</h5>
+    </div>
+    <a href="{{ url_for('company.dashboard') }}" class="btn btn-secondary">
+        Back to Dashboard
+    </a>
+</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Applicant Name</th>
+            <th>Contact</th>
+            <th>Applied Date</th>
+            <th>Resume</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for app in applications %}
+        <tr>
+            <td>{{ app.student.name }}</td>
+
+            <td>{{ app.student.contact }}</td>
+
+            <td>{{ app.application_date.strftime('%Y-%m-%d') }}</td>
+
+            <td>
+                {% if app.student.resume_filename %}
+                <a href="{{ url_for('static', filename='uploads/' + app.student.resume_filename) }}" target="_blank">
+                    View Resume
+                </a>
+                {% else %}
+                Not provided
+                {% endif %}
+            </td>
+
+            <td>{{ app.status }}</td>
+
+            <td>
+                <form method="POST" action="{{ url_for('company.update_application', app_id=app.id) }}">
+                    <select name="status" class="form-select form-select-sm">
+                        <option value="shortlisted">Shortlist</option>
+                        <option value="selected">Select</option>
+                        <option value="rejected">Reject</option>
+                    </select>
+
+                    <button type="submit" class="btn btn-primary btn-sm mt-1">
+                        Save
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+
+        {% if not applications %}
+        <tr>
+            <td colspan="6">
+                No applications received yet for this position.
+            </td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>
+
+{% endblock %}
