@@ -48,6 +48,8 @@ def register_student():
         password = request.form.get('password')
         name = request.form.get('name')
         contact = request.form.get('contact')
+        CGPA = request.form.get('CGPA')
+        branch = request.form.get('branch')
         
         if User.query.filter_by(username=username).first():
             flash("Username already exists.", "danger")

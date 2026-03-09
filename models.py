@@ -18,6 +18,8 @@ class StudentProfile(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     name = db.Column(db.String(100), nullable=False)
+    CGPA = db.column(db.Float)
+    branch = db.Column(db.String(100))
     contact = db.Column(db.String(50))
     resume_file = db.Column(db.String(150))
     applications = db.relationship('Application', backref='student', cascade='all, delete-orphan')
