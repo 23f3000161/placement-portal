@@ -46,6 +46,8 @@ def profile():
     if request.method == 'POST':
         current_user.student_profile.name = request.form.get('name')
         current_user.student_profile.contact = request.form.get('contact')
+        current_user.student_profile.CGPA = request.form.get('CGPA')
+        current_user.student_profile.branch = request.form.get('branch')
         
         resume = request.files.get('resume')
         if resume and resume.filename != '':
